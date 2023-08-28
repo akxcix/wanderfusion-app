@@ -10,6 +10,7 @@ import { Avatar, AvatarImage } from "./avatar";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "@/lib/authutils";
 import { useNavigate } from "react-router";
+import { LogOutIcon } from "lucide-react";
 
 const Navbar: React.FC = ({
   className,
@@ -68,7 +69,18 @@ const SignedInNav = ({ email, username, profilePic }: SignedInNavProps) => {
   };
   return (
     <div className="flex gap-4">
-      <a href={PATHS.DASHBOARD}>
+      <Button
+        variant={"outline"}
+        onClick={() => {
+          navigate(PATHS.DASHBOARD);
+        }}
+      >
+        Dashboard
+      </Button>
+      <Button variant={"outline"} onClick={onLogoutClick}>
+        <LogOutIcon />
+      </Button>
+      <a href={PATHS.UPDATE_PROFILE}>
         {profilePic ? (
           <Avatar>
             <AvatarImage src={profilePic} alt={username ? username : email} />
@@ -79,9 +91,6 @@ const SignedInNav = ({ email, username, profilePic }: SignedInNavProps) => {
           <TypographySmall>{email}</TypographySmall>
         )}
       </a>
-      <Button variant={"secondary"} onClick={onLogoutClick}>
-        Log Out
-      </Button>
     </div>
   );
 };

@@ -25,8 +25,13 @@ export const UpdateProfileForm = () => {
   const profilePic = useGetProfilePic() || "";
 
   const FormSchema = z.object({
-    username: z.string().default(username),
-    profilePic: z.string().url().default(profilePic),
+    username: z.string().default(username).optional(),
+    profilePic: z
+      .string()
+      .url("invalid url")
+      .default(profilePic)
+      .optional()
+      .or(z.literal("")),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({

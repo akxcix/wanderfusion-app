@@ -56,8 +56,8 @@ export const register = async (formData: {
 };
 
 export const updateProfile = async (formData: {
-  username: string;
-  profilePic: string;
+  username?: string;
+  profilePic?: string;
 }) => {
   const url = BASE_URL + ENDPOINTS.UPDATE;
   const accessToken = localStorage.getItem(LOCALSTORAGE_JWT_KEY);

@@ -7,4 +7,5 @@ export const PATHS = {
   LOGIN: "/login",
   REGISTER: "/register",
   DASHBOARD: "/dashboard",
+  UPDATE_PROFILE: "/updateprofile",
 };

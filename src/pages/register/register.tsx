@@ -3,7 +3,7 @@ import { RegisterForm } from "./registerForm";
 
 export const Register = () => {
   return (
-    <div>
+    <div className="register">
       <TypographyH1>Register</TypographyH1>
       <RegisterForm />
     </div>

@@ -23,14 +23,18 @@ export const useGetEmail = () => {
 
 export const useGetUsername = () => {
   const jwtPayload = useSelector((state: RootState) => state.jwtPayload);
-  return jwtPayload
-    ? jwtPayload.username
-      ? "@" + jwtPayload.username
-      : undefined
-    : undefined;
+  return jwtPayload ? jwtPayload.username : undefined;
 };
 
 export const useGetProfilePic = () => {
   const jwtPayload = useSelector((state: RootState) => state.jwtPayload);
   return jwtPayload ? jwtPayload.profilePicture : undefined;
+};
+
+export const setPayload = (dispatch: any, payload: any) => {
+  dispatch({ type: "SET_JWT_PAYLOAD", payload });
+};
+
+export const getEmail = (state: RootState) => {
+  return state.jwtPayload ? state.jwtPayload.email : null;
 };

@@ -1,30 +1,54 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./pages/home/home";
 import { Login } from "./pages/login/login";
-import { Toaster } from "@/components/ui/toaster";
-import Navbar from "./components/ui/navbar";
 import { Register } from "./pages/register/register";
 import { NotFound } from "./pages/errors/notfound";
 import { LOCALSTORAGE_JWT_KEY, PATHS } from "@/commons/constants";
 import { useSetPayload } from "./redux/utils";
 import { Dashboard } from "./pages/dashboard/dashboard";
+import Layout from "./pages/layout/layout";
+import { UpdateProfile } from "./pages/updateprofile/updateprofile";
 
 const router = createBrowserRouter([
   {
     path: PATHS.HOME,
-    element: <Home />,
+    element: (
+      <Layout>
+        <Home />
+      </Layout>
+    ),
   },
   {
     path: PATHS.LOGIN,
-    element: <Login />,
+    element: (
+      <Layout>
+        <Login />
+      </Layout>
+    ),
   },
   {
     path: PATHS.REGISTER,
-    element: <Register />,
+    element: (
+      <Layout>
+        <Register />
+      </Layout>
+    ),
   },
   {
     path: PATHS.DASHBOARD,
-    element: <Dashboard />,
+    element: (
+      <Layout>
+        <Dashboard />
+      </Layout>
+    ),
+  },
+  {
+    path: PATHS.UPDATE_PROFILE,
+    element: (
+      <Layout>
+        <UpdateProfile />
+      </Layout>
+    ),
   },
   {
     path: "*",
@@ -39,12 +63,8 @@ function App() {
     setPayload(existingJwt);
   }
   return (
-    <div>
-      <Navbar />
-      <div className="flex flex-col px-5 py-10 w-full lg:w-1/2 mx-auto">
-        <RouterProvider router={router} />
-        <Toaster />
-      </div>
+    <div className="app">
+      <RouterProvider router={router} />
     </div>
   );
 }

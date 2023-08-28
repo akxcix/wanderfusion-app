@@ -12,25 +12,30 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { register } from "@/network/passport";
-import { useNavigate } from "react-router";
 import { PATHS } from "@/commons/constants";
+import { useNavigate } from "react-router";
+import { updateProfile } from "@/network/passport";
+import { useGetProfilePic, useGetUsername } from "@/redux/utils";
+import { randomUsername } from "@/lib/utils";
 
-const FormSchema = z.object({
-  email: z.string().email("email is invalid"),
-  password: z.string().min(8, "Password must be 8 characters"),
-});
-
-export const RegisterForm = () => {
+export const UpdateProfileForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const username = useGetUsername() || randomUsername();
+  const profilePic = useGetProfilePic() || "";
+
+  const FormSchema = z.object({
+    username: z.string().default(username),
+    profilePic: z.string().url().default(profilePic),
+  });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: { username, profilePic },
   });
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
-    register(values).then(({ status, data }) => {
+    updateProfile(values).then(({ status, data }) => {
       if (status === "error") {
         toast({
           variant: "destructive",
@@ -38,16 +43,13 @@ export const RegisterForm = () => {
           description: data,
         });
       } else {
-        toast({
-          description: data,
-        });
-        navigate(PATHS.LOGIN);
+        navigate(PATHS.DASHBOARD);
       }
     });
   }
 
   return (
-    <div className="registerForm">
+    <div className="loginForm">
       <div className="flex flex-col p-2">
         <Form {...form}>
           <form
@@ -56,11 +58,15 @@ export const RegisterForm = () => {
           >
             <FormField
               control={form.control}
-              name="email"
+              name="username"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="email" {...field} />
+                    <Input
+                      {...field}
+                      placeholder="username"
+                      defaultValue={username}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -69,21 +75,21 @@ export const RegisterForm = () => {
 
             <FormField
               control={form.control}
-              name="password"
+              name="profilePic"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
-                      type={"password"}
-                      placeholder="password"
                       {...field}
+                      placeholder="profilePic"
+                      defaultValue={profilePic}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Register</Button>
+            <Button type="submit">Update</Button>
           </form>
         </Form>
       </div>

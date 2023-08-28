@@ -12,10 +12,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { login } from "@/network/auth";
 import { LOCALSTORAGE_JWT_KEY, PATHS } from "@/commons/constants";
 import { useSetPayload } from "@/redux/utils";
 import { useNavigate } from "react-router";
+import { handleLogin } from "@/lib/authutils";
+import { useDispatch } from "react-redux";
 
 const FormSchema = z.object({
   email: z.string().email("email is invalid"),
@@ -27,6 +28,8 @@ const storeJwt = (token: string) => {
 };
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
+
   const { toast } = useToast();
   const setPayload = useSetPayload();
   const navigate = useNavigate();
@@ -36,7 +39,7 @@ export const LoginForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
-    login(values).then(({ status, data }) => {
+    handleLogin(values, dispatch).then(({ status, data }) => {
       if (status === "error") {
         toast({
           variant: "destructive",

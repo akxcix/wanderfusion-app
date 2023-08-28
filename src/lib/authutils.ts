@@ -15,15 +15,6 @@ export const handleLogin = async (
   return response;
 };
 
-export const handleRegister = async (
-  formData: { email: string; password: string },
-  dispatch: any
-) => {
-  const response = await register(formData);
-  // Similar to handleLogin, handle the response
-  return response;
-};
-
 export const handleLogout = (dispatch: any) => {
   // Remove tokens from localStorage
   localStorage.removeItem(LOCALSTORAGE_JWT_KEY);

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { TypographyLarge, TypographySmall } from "@/components/ui/typography";
 import { useGetEmail, useGetProfilePic, useGetUsername } from "@/redux/utils";
 import { PATHS } from "@/commons/constants";
-import { Avatar, AvatarImage } from "./avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "@/lib/authutils";
 import { useNavigate } from "react-router";
@@ -81,15 +81,10 @@ const SignedInNav = ({ email, username, profilePic }: SignedInNavProps) => {
         <LogOutIcon />
       </Button>
       <a href={PATHS.UPDATE_PROFILE}>
-        {profilePic ? (
-          <Avatar>
-            <AvatarImage src={profilePic} alt={username ? username : email} />
-          </Avatar>
-        ) : username ? (
-          <TypographySmall>{username}</TypographySmall>
-        ) : (
-          <TypographySmall>{email}</TypographySmall>
-        )}
+        <Avatar>
+          <AvatarImage src={profilePic} alt={username ? username : email} />
+          <AvatarFallback>{email.toUpperCase().at(0)}</AvatarFallback>
+        </Avatar>
       </a>
     </div>
   );

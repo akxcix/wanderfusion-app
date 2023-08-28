@@ -1,7 +1,7 @@
-import { HOST_PASSPORT, LOCALSTORAGE_JWT_KEY } from "@/commons/constants";
+import { HOST_NOMADCORE, LOCALSTORAGE_JWT_KEY } from "@/commons/constants";
 import axios from "axios";
 
-const BASE_URL = HOST_PASSPORT;
+const BASE_URL = HOST_NOMADCORE;
 const ENDPOINTS = {
   LOGIN: "/users/login",
   REGISTER: "/users/register",

@@ -12,23 +12,17 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { login } from "@/network/auth";
-import { LOCALSTORAGE_JWT_KEY, PATHS } from "@/commons/constants";
-import { useSetPayload } from "@/redux/utils";
+import { register } from "@/network/auth";
 import { useNavigate } from "react-router";
+import { PATHS } from "@/commons/constants";
 
 const FormSchema = z.object({
   email: z.string().email("email is invalid"),
-  password: z.string().min(8, "Password must have at least 8 characters"),
+  password: z.string().min(8, "Password must be 8 characters"),
 });
 
-const storeJwt = (token: string) => {
-  localStorage.setItem(LOCALSTORAGE_JWT_KEY, token);
-};
-
-export const LoginForm = () => {
+export const RegisterForm = () => {
   const { toast } = useToast();
-  const setPayload = useSetPayload();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -36,7 +30,7 @@ export const LoginForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
-    login(values).then(({ status, data }) => {
+    register(values).then(({ status, data }) => {
       if (status === "error") {
         toast({
           variant: "destructive",
@@ -44,9 +38,10 @@ export const LoginForm = () => {
           description: data,
         });
       } else {
-        storeJwt(data);
-        setPayload(data);
-        navigate(PATHS.DASHBOARD);
+        toast({
+          description: data,
+        });
+        navigate(PATHS.LOGIN);
       }
     });
   }
@@ -88,7 +83,7 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Log In</Button>
+            <Button type="submit">Register</Button>
           </form>
         </Form>
       </div>

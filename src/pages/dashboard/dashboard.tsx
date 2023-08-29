@@ -15,13 +15,17 @@ import CalendarViewer from "../calendar/viewer";
 import { useEffect, useState } from "react";
 import { fetchPublicCalendars } from "@/network/nomadcore/client";
 import { Calendar } from "@/network/nomadcore/types";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
+import { PATHS } from "@/commons/constants";
 
 export const Dashboard = () => {
   const email = useGetEmail();
   const rawUsername = useGetUsername();
   const username = formatUsername(rawUsername);
   const [calendars, setCalendars] = useState<Calendar[]>([]);
-  // const [selectedCalId, setSelectedCalId] = useState<string>("");
+  const navigate = useNavigate();
+  const [selectedCalId, setSelectedCalId] = useState<string>("");
 
   useEffect(() => {
     fetchPublicCalendars()
@@ -43,7 +47,7 @@ export const Dashboard = () => {
               <Select
                 onValueChange={(e) => {
                   console.log(e);
-                  // setSelectedCalId(e);
+                  setSelectedCalId(e);
                 }}
               >
                 <SelectTrigger className="grow">
@@ -59,7 +63,6 @@ export const Dashboard = () => {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              {/* <SelectCal calendars={calendars} callback={callbacklog} /> */}
             </div>
           ) : (
             <div></div>
@@ -70,13 +73,19 @@ export const Dashboard = () => {
               from={addDays(new Date(), -5)}
               to={addDays(new Date(), 5)}
             />
-            {/* <ButtonLink
-              variant="default"
-              href="/calendar/update"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Add Dates
-            </ButtonLink> */}
+            {selectedCalId === "" ? (
+              <div></div>
+            ) : (
+              <Button
+                onClick={() =>
+                  navigate(PATHS.UPDATE_CALENDAR, {
+                    state: { calendarId: selectedCalId },
+                  })
+                }
+              >
+                Add Dates
+              </Button>
+            )}
           </div>
         </div>
       </div>

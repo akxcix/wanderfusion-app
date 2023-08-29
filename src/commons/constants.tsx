@@ -9,4 +9,5 @@ export const PATHS = {
   REGISTER: "/register",
   DASHBOARD: "/dashboard",
   UPDATE_PROFILE: "/updateprofile",
+  UPDATE_CALENDAR: "/updatecalendar",
 };

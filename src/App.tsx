@@ -8,6 +8,7 @@ import { useSetPayload } from "./redux/utils";
 import { Dashboard } from "./pages/dashboard/dashboard";
 import Layout from "./pages/layout/layout";
 import { UpdateProfile } from "./pages/updateprofile/updateprofile";
+import CalendarPicker from "./pages/calendar/picker";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <UpdateProfile />
+      </Layout>
+    ),
+  },
+  {
+    path: PATHS.UPDATE_CALENDAR,
+    element: (
+      <Layout>
+        <CalendarPicker />
       </Layout>
     ),
   },

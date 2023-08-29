@@ -12,7 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { register } from "@/network/passport";
+import { register } from "@/network/passport/client";
 import { useNavigate } from "react-router";
 import { PATHS } from "@/commons/constants";
 

@@ -14,7 +14,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { PATHS } from "@/commons/constants";
 import { useNavigate } from "react-router";
-import { updateProfile } from "@/network/passport";
+import { updateProfile } from "@/network/passport/client";
 import { useGetProfilePic, useGetUsername } from "@/redux/utils";
 import { randomUsername } from "@/lib/utils";
 

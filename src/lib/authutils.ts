@@ -1,5 +1,5 @@
 import { setPayload } from "@/redux/utils";
-import { login } from "@/network/passport"; // your existing apiCall file
+import { login } from "@/network/passport/client"; // your existing apiCall file
 import { LOCALSTORAGE_JWT_KEY } from "@/commons/constants";
 
 export const handleLogin = async (

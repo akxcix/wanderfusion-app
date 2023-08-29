@@ -3,7 +3,7 @@ import React from "react";
 import { cn, formatUsername } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { TypographyLarge, TypographySmall } from "@/components/ui/typography";
+import { TypographyLarge } from "@/components/ui/typography";
 import { useGetEmail, useGetProfilePic, useGetUsername } from "@/redux/utils";
 import { PATHS } from "@/commons/constants";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";

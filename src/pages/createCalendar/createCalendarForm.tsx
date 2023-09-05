@@ -18,7 +18,6 @@ import { PATHS } from "@/commons/constants";
 import { useNavigate } from "react-router";
 import { createNewCalendar } from "@/network/nomadcore/client";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 
 export const CreateCalendarForm = () => {
   const navigate = useNavigate();

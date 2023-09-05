@@ -8,8 +8,8 @@ import { useSetPayload } from "./redux/utils";
 import Layout from "./pages/layout/layout";
 import { UpdateProfile } from "./pages/updateprofile/updateprofile";
 import CalendarPicker from "./pages/calendar/picker";
-import { CreateGroup } from "./pages/createGroup/CreateGroup";
-import { Dashboard } from "./pages/dashboard/Dashboard";
+import { CreateGroup } from "./pages/createGroup/createGroup";
+import { Dashboard } from "./pages/dashboard/dashboard";
 
 const router = createBrowserRouter([
   {

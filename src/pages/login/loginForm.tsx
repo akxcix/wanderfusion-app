@@ -61,7 +61,7 @@ export const LoginForm = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col space-y-2"
+            className="flex flex-col space-y-8"
           >
             <FormField
               control={form.control}

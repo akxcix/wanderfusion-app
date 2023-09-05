@@ -99,6 +99,11 @@ export const Dashboard = () => {
               </Button>
             )}
           </div>
+          <div>
+            <Button onClick={() => navigate(PATHS.CREATE_CALENDAR)}>
+              Create New Calendar
+            </Button>
+          </div>
         </div>
       </div>
     </div>

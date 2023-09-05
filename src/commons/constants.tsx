@@ -13,4 +13,5 @@ export const PATHS = {
   DASHBOARD: "/dashboard",
   UPDATE_PROFILE: "/updateprofile",
   UPDATE_CALENDAR: "/updatecalendar",
+  CREATE_CALENDAR: "/createcalendar",
 };

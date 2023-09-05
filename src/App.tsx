@@ -9,6 +9,7 @@ import { Dashboard } from "./pages/dashboard/dashboard";
 import Layout from "./pages/layout/layout";
 import { UpdateProfile } from "./pages/updateprofile/updateprofile";
 import CalendarPicker from "./pages/calendar/picker";
+import { CreateCalendar } from "./pages/createCalendar/createCalendar";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,14 @@ const router = createBrowserRouter([
     element: (
       <Layout>
         <UpdateProfile />
+      </Layout>
+    ),
+  },
+  {
+    path: PATHS.CREATE_CALENDAR,
+    element: (
+      <Layout>
+        <CreateCalendar />
       </Layout>
     ),
   },

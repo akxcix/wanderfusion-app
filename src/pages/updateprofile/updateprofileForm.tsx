@@ -4,6 +4,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -25,7 +26,11 @@ export const UpdateProfileForm = () => {
   const profilePic = useGetProfilePic() || "";
 
   const FormSchema = z.object({
-    username: z.string().default(username).optional(),
+    username: z
+      .string()
+      .refine((s) => !s.includes(" "), "spaces are not allowed")
+      .default(username)
+      .optional(),
     profilePic: z
       .string()
       .url("invalid url")
@@ -66,10 +71,12 @@ export const UpdateProfileForm = () => {
               name="username"
               render={({ field }) => (
                 <FormItem>
+                  {" "}
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="username"
+                      placeholder="frootloops511"
                       defaultValue={username}
                     />
                   </FormControl>
@@ -83,10 +90,11 @@ export const UpdateProfileForm = () => {
               name="profilePic"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Profile Picture</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder="profilePic"
+                      placeholder="https://github.com/<username>.png"
                       defaultValue={profilePic}
                     />
                   </FormControl>

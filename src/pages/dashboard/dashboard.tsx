@@ -1,7 +1,6 @@
 import { TypographyH1 } from "@/components/ui/typography";
 import { formatUsername } from "@/lib/utils";
 import { useGetEmail, useGetUsername } from "@/redux/utils";
-import { addDays } from "date-fns";
 
 import {
   Select,
@@ -26,6 +25,23 @@ export const Dashboard = () => {
   const [calendars, setCalendars] = useState<Calendar[]>([]);
   const navigate = useNavigate();
   const [selectedCalId, setSelectedCalId] = useState<string>("");
+  const [selectedCalDateRange, setSelectedCalDateRange] = useState<Date[][]>(
+    []
+  );
+
+  const handleSelect = (e: string) => {
+    console.log(e);
+    setSelectedCalId(e);
+    const selectedDates = calendars
+      .filter((x) => x.id === e)
+      .at(0)
+      ?.dates?.map((x) => [new Date(x.from), new Date(x.to)]);
+    if (selectedDates !== undefined) {
+      setSelectedCalDateRange(selectedDates);
+    } else {
+      setSelectedCalDateRange([]);
+    }
+  };
 
   useEffect(() => {
     fetchPublicCalendars()
@@ -40,23 +56,23 @@ export const Dashboard = () => {
   return (
     <div>
       <TypographyH1>Hola, {username ? username : email}</TypographyH1>
+
       <div className="flex flex-row p-2 space-x-2">
+        <div className="border p-2">
+          <CalendarViewer dateRanges={selectedCalDateRange} />
+        </div>
+
         <div className="flex flex-col">
           {calendars.length > 0 ? (
             <div className="selectCal">
-              <Select
-                onValueChange={(e) => {
-                  console.log(e);
-                  setSelectedCalId(e);
-                }}
-              >
+              <Select onValueChange={handleSelect}>
                 <SelectTrigger className="grow">
                   <SelectValue placeholder="Select a calendar" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     {calendars.map((x) => (
-                      <SelectItem key={x.uuid} value={x.uuid}>
+                      <SelectItem key={x.id} value={x.id}>
                         {x.name}
                       </SelectItem>
                     ))}
@@ -69,10 +85,6 @@ export const Dashboard = () => {
           )}
 
           <div>
-            <CalendarViewer
-              from={addDays(new Date(), -5)}
-              to={addDays(new Date(), 5)}
-            />
             {selectedCalId === "" ? (
               <div></div>
             ) : (

@@ -4,14 +4,15 @@ import { GetCalendarsResponse, Root } from "./types";
 
 const BASE_URL = HOST_NOMADCORE;
 const ENDPOINTS = {
-  USER_PUBLIC_CALENDARS: "/calendars/public",
-  NEW_DATES: "/calendars/dates/new",
+  GET_PUBLIC_CALENDARS: "/calendars/public",
+  POST_NEW_DATES: "/calendars/dates/new",
+  POST_NEW_CALENDAR: "/calendars/new",
 };
 
 export const fetchPublicCalendars = async () => {
   const accessToken = localStorage.getItem(LOCALSTORAGE_JWT_KEY);
   const headers = { Authorization: `Bearer ${accessToken}` };
-  const url = BASE_URL + ENDPOINTS.USER_PUBLIC_CALENDARS;
+  const url = BASE_URL + ENDPOINTS.GET_PUBLIC_CALENDARS;
   const config = {
     headers: headers,
   };
@@ -35,7 +36,7 @@ export const addNewDatesToCalendar = async (
     "Content-Type": "application/json",
   };
 
-  const url = `${BASE_URL}${ENDPOINTS.NEW_DATES}`;
+  const url = `${BASE_URL}${ENDPOINTS.POST_NEW_DATES}`;
   const payload = {
     calendarId,
     dates: {

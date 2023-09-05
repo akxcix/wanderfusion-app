@@ -13,7 +13,7 @@ import {
 import CalendarViewer from "../calendar/viewer";
 import { useEffect, useState } from "react";
 import { fetchPublicCalendars } from "@/network/nomadcore/client";
-import { Calendar } from "@/network/nomadcore/types";
+import { Group } from "@/network/nomadcore/types";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
 import { PATHS } from "@/commons/constants";
@@ -22,7 +22,7 @@ export const Dashboard = () => {
   const email = useGetEmail();
   const rawUsername = useGetUsername();
   const username = formatUsername(rawUsername);
-  const [calendars, setCalendars] = useState<Calendar[]>([]);
+  const [groups, setGroups] = useState<Group[]>([]);
   const navigate = useNavigate();
   const [selectedCalId, setSelectedCalId] = useState<string>("");
   const [selectedCalDateRange, setSelectedCalDateRange] = useState<Date[][]>(
@@ -32,7 +32,7 @@ export const Dashboard = () => {
   const handleSelect = (e: string) => {
     console.log(e);
     setSelectedCalId(e);
-    const selectedDates = calendars
+    const selectedDates = groups
       .filter((x) => x.id === e)
       .at(0)
       ?.dates?.map((x) => [new Date(x.from), new Date(x.to)]);
@@ -47,7 +47,7 @@ export const Dashboard = () => {
     fetchPublicCalendars()
       .then((data) => {
         if (data) {
-          setCalendars(data?.calendars);
+          setGroups(data?.groups);
         }
       })
       .catch((err) => console.error(err));
@@ -62,8 +62,8 @@ export const Dashboard = () => {
           <CalendarViewer dateRanges={selectedCalDateRange} />
         </div>
 
-        <div className="flex flex-col">
-          {calendars.length > 0 ? (
+        <div className="flex flex-col s-y-8">
+          {groups.length > 0 ? (
             <div className="selectCal">
               <Select onValueChange={handleSelect}>
                 <SelectTrigger className="grow">
@@ -71,7 +71,7 @@ export const Dashboard = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {calendars.map((x) => (
+                    {groups.map((x) => (
                       <SelectItem key={x.id} value={x.id}>
                         {x.name}
                       </SelectItem>
@@ -101,7 +101,7 @@ export const Dashboard = () => {
           </div>
           <div>
             <Button onClick={() => navigate(PATHS.CREATE_CALENDAR)}>
-              Create New Calendar
+              Create New Group
             </Button>
           </div>
         </div>

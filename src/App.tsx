@@ -5,11 +5,11 @@ import { Register } from "./pages/register/register";
 import { NotFound } from "./pages/errors/notfound";
 import { LOCALSTORAGE_JWT_KEY, PATHS } from "@/commons/constants";
 import { useSetPayload } from "./redux/utils";
-import { Dashboard } from "./pages/dashboard/dashboard";
 import Layout from "./pages/layout/layout";
 import { UpdateProfile } from "./pages/updateprofile/updateprofile";
 import CalendarPicker from "./pages/calendar/picker";
-import { CreateCalendar } from "./pages/createCalendar/createCalendar";
+import { CreateGroup } from "./pages/createGroup/CreateGroup";
+import { Dashboard } from "./pages/dashboard/dashboard";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
     path: PATHS.CREATE_CALENDAR,
     element: (
       <Layout>
-        <CreateCalendar />
+        <CreateGroup />
       </Layout>
     ),
   },

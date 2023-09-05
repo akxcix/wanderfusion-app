@@ -1,12 +1,12 @@
 import { HOST_NOMADCORE, LOCALSTORAGE_JWT_KEY } from "@/commons/constants";
 import axios from "axios";
-import { GetCalendarsResponse, Root } from "./types";
+import { GetGroupsResponse, Root } from "./types";
 
 const BASE_URL = HOST_NOMADCORE;
 const ENDPOINTS = {
-  GET_PUBLIC_CALENDARS: "/calendars/public",
-  POST_NEW_DATES: "/calendars/dates/new",
-  POST_NEW_CALENDAR: "/calendars/new",
+  GET_GROUPS: "/groups",
+  POST_NEW_DATES: "/groups/dates/new",
+  POST_NEW_GROUP: "/groups/new",
 };
 
 const getAuthHeaders = () => {
@@ -26,11 +26,11 @@ const getConfig = () => {
 };
 
 export const fetchPublicCalendars = async () => {
-  const url = BASE_URL + ENDPOINTS.GET_PUBLIC_CALENDARS;
+  const url = BASE_URL + ENDPOINTS.GET_GROUPS;
   const config = getConfig();
 
   try {
-    const response = await axios.get<Root<GetCalendarsResponse>>(url, config);
+    const response = await axios.get<Root<GetGroupsResponse>>(url, config);
     return response.data.data;
   } catch (e) {
     console.error("An unexpected error occurred:", e);
@@ -38,14 +38,14 @@ export const fetchPublicCalendars = async () => {
 };
 
 export const addNewDatesToCalendar = async (
-  calendarId: string,
+  groupId: string,
   from: string,
   to: string
 ): Promise<string | void> => {
   const url = `${BASE_URL}${ENDPOINTS.POST_NEW_DATES}`;
   const config = getConfig();
   const payload = {
-    calendarId,
+    groupId,
     dates: {
       from,
       to,
@@ -62,13 +62,13 @@ export const addNewDatesToCalendar = async (
 
 export const createNewCalendar = async (formData: {
   name: string;
-  visibilityControl: string;
+  description?: string;
 }): Promise<string | void> => {
-  const url = `${BASE_URL}${ENDPOINTS.POST_NEW_CALENDAR}`;
+  const url = `${BASE_URL}${ENDPOINTS.POST_NEW_GROUP}`;
   const config = getConfig();
   const payload = {
     name: formData.name,
-    visibility: formData.visibilityControl,
+    description: formData.description,
   };
 
   try {

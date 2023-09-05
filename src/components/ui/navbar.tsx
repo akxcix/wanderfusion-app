@@ -3,7 +3,6 @@ import React from "react";
 import { cn, formatUsername } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { TypographyLarge } from "@/components/ui/typography";
 import { useGetEmail, useGetProfilePic, useGetUsername } from "@/redux/utils";
 import { PATHS } from "@/commons/constants";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
@@ -11,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { handleLogout } from "@/lib/authutils";
 import { useNavigate } from "react-router";
 import { LogOutIcon } from "lucide-react";
+import LogoPNG from "../../../public/logo.png"; // Adjust the path accordingly
 
 const Navbar: React.FC = ({
   className,
@@ -35,7 +35,7 @@ const Navbar: React.FC = ({
               navigate(PATHS.HOME);
             }}
           >
-            <TypographyLarge>WanderFusion</TypographyLarge>
+            <img src={LogoPNG} alt="logo" className="logo" width={40} />
           </Button>
           <div className="grow" />
           {email ? (

@@ -1,11 +1,11 @@
 import { TypographyH1 } from "@/components/ui/typography";
-import { CreateCalendarForm } from "./createCalendarForm";
+import { CreateGroupForm } from "./createGroupForm";
 
-export function CreateCalendar() {
+export function CreateGroup() {
   return (
     <div className="updateProfile">
       <TypographyH1>Create New Calendar</TypographyH1>
-      <CreateCalendarForm />
+      <CreateGroupForm />
     </div>
   );
 }

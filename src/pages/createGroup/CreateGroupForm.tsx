@@ -17,16 +17,24 @@ import { useForm } from "react-hook-form";
 import { PATHS } from "@/commons/constants";
 import { useNavigate } from "react-router";
 import { createNewCalendar } from "@/network/nomadcore/client";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@/components/ui/textarea";
 
-export const CreateCalendarForm = () => {
+const maxLenName = 30;
+const maxLenDescription = 250;
+
+export const CreateGroupForm = () => {
   const navigate = useNavigate();
 
   const FormSchema = z.object({
-    name: z.string(),
-    visibilityControl: z.enum(["private", "public"], {
-      required_error: "You need to select a visibility option.",
-    }),
+    name: z
+      .string()
+      .max(maxLenName, { message: `length should be <${maxLenName}.` }),
+    description: z
+      .string()
+      .max(maxLenDescription, {
+        message: `length should be <${maxLenDescription}.`,
+      })
+      .optional(),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -60,13 +68,13 @@ export const CreateCalendarForm = () => {
             render={({ field }) => (
               <FormItem>
                 {" "}
-                <FormLabel>Calendar Name</FormLabel>
+                <FormLabel>Group Name</FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="Japan trip with homies" />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name. It can be your real name or
-                  a pseudonym. You can only change this once every 30 days.
+                  {`This is your Group's name. Keep it shorter than ${maxLenName} characters,
+                  so that it makes sense.`}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -75,28 +83,22 @@ export const CreateCalendarForm = () => {
 
           <FormField
             control={form.control}
-            name="visibilityControl"
+            name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Visibility</FormLabel>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="private" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Private</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="public" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Public</FormLabel>
-                  </FormItem>
-                </RadioGroup>
+                {" "}
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="A short description about the group"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  {`It helps the participants to know the purpose of the group, but keep it 
+                  concise. Keep it shorter than ${maxLenDescription} characters.`}
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

@@ -4,15 +4,15 @@ export interface Root<T> {
 }
 
 // responses --------------------------------------------------------------------------------------
-export interface GetCalendarsResponse {
-  calendars: Calendar[];
+export interface GetGroupsResponse {
+  groups: Group[];
 }
 
 // base types -------------------------------------------------------------------------------------
-export interface Calendar {
+export interface Group {
   id: string;
   name: string;
-  visibility: string;
+  description?: string;
   dates?: Date[];
 }
 

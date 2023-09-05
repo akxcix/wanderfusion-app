@@ -9,7 +9,7 @@ import Layout from "./pages/layout/layout";
 import { UpdateProfile } from "./pages/updateprofile/updateprofile";
 import CalendarPicker from "./pages/calendar/picker";
 import { CreateGroup } from "./pages/createGroup/CreateGroup";
-import { Dashboard } from "./pages/dashboard/dashboard";
+import { Dashboard } from "./pages/dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {

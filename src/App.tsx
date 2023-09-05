@@ -1,15 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home } from "./pages/home/home";
-import { Login } from "./pages/login/login";
-import { Register } from "./pages/register/register";
-import { NotFound } from "./pages/errors/notfound";
+import { Home } from "@/pages/home/home";
+import { Login } from "@/pages/login/login";
+import { Register } from "@/pages/register/register";
+import { NotFound } from "@/pages/errors/notfound";
 import { LOCALSTORAGE_JWT_KEY, PATHS } from "@/commons/constants";
-import { useSetPayload } from "./redux/utils";
-import Layout from "./pages/layout/layout";
-import { UpdateProfile } from "./pages/updateprofile/updateprofile";
-import CalendarPicker from "./pages/calendar/picker";
-import { CreateGroup } from "./pages/createGroup/createGroup";
-import { Dashboard } from "./pages/dashboard/dashboard";
+import { useSetPayload } from "@/redux/utils";
+import Layout from "@/pages/layout/layout";
+import { UpdateProfile } from "@/pages/updateprofile/updateprofile";
+import CalendarPicker from "@/pages/calendar/picker";
+import { CreateGroup } from "@/pages/createGroup/createGroup";
+import { Dashboard } from "@/pages/dashboard/dashboard";
 
 const router = createBrowserRouter([
   {

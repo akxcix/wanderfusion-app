@@ -1,5 +1,5 @@
 import { TypographyH1 } from "@/components/ui/typography";
-import { CreateGroupForm } from "@/pages/createGroup/createGroupForm";
+import { CreateGroupForm } from "./createGroupForm";
 
 export function CreateGroup() {
   return (

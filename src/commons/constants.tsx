@@ -3,8 +3,10 @@ export const HOSTS = {
   NOMADCORE: "http://localhost:8080",
 };
 
-// export const HOST_PASSPORT = "https://passport.wanderfusion.com";
-// export const HOST_NOMADCORE = "https://api.wanderfusion.com";
+// export const HOSTS = {
+//   PASSPORT: "https://passport.wanderfusion.com",
+//   NOMADCORE: "https://api.wanderfusion.com",
+// };
 
 export const LOCAL_STORAGE_KEYS = {
   AUTH_TOKEN: "authToken",

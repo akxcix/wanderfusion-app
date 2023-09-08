@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "/app/globals.css";
 import { Provider } from "react-redux";
-import store from "./redux/store.ts";
 import { inject } from "@vercel/analytics";
+import { store } from "./store/store.ts";
 
 inject();
 

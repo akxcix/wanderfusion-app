@@ -3,8 +3,7 @@ import { Home } from "@/pages/home/home";
 import { Login } from "@/pages/login/login";
 import { Register } from "@/pages/register/register";
 import { NotFound } from "@/pages/errors/notfound";
-import { LOCAL_STORAGE_KEYS, PATHS } from "@/commons/constants";
-import { useSetPayload } from "@/redux/utils";
+import { PATHS } from "@/commons/constants";
 import Layout from "@/pages/layout/layout";
 import { UpdateProfile } from "@/pages/updateprofile/updateprofile";
 import CalendarPicker from "@/pages/calendar/picker";
@@ -53,7 +52,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: PATHS.CREATE_CALENDAR,
+    path: PATHS.CREATE_GROUP,
     element: (
       <Layout>
         <CreateGroup />
@@ -75,11 +74,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const setPayload = useSetPayload();
-  const existingJwt = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
-  if (existingJwt) {
-    setPayload(existingJwt);
-  }
   return (
     <div className="app">
       <RouterProvider router={router} />

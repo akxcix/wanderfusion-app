@@ -16,8 +16,15 @@ import { useForm } from "react-hook-form";
 import { PATHS } from "@/commons/constants";
 import { useNavigate } from "react-router";
 import { handleLogin } from "@/lib/authutils";
-import { useDispatch } from "react-redux";
-import { useSetPayload } from "@/redux/utils";
+import { useAppDispatch } from "@/store/hooks";
+import { setUserFromJwt } from "@/store/userSlice";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { TypographyH3 } from "@/components/ui/typography";
 
 const FormSchema = z.object({
   email: z.string().email("email is invalid"),
@@ -25,21 +32,18 @@ const FormSchema = z.object({
 });
 
 export const LoginForm = () => {
-  const dispatch = useDispatch();
-  const setPayload = useSetPayload();
-
   const { toast } = useToast();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
-    handleLogin(values, dispatch).then(({ ok, err }) => {
+    handleLogin(values).then(({ ok, err }) => {
       if (ok) {
-        // storeJwt(ok.authToken);
-        setPayload(ok);
+        dispatch(setUserFromJwt(ok));
         navigate(PATHS.DASHBOARD);
       } else {
         toast({
@@ -52,48 +56,56 @@ export const LoginForm = () => {
   }
 
   return (
-    <div className="loginForm">
-      <div className="flex flex-col p-2">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col space-y-8"
-          >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div className="flex flex-col max-w-fit">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Card>
+            <CardHeader>
+              <TypographyH3>Log In</TypographyH3>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <div className="flex flex-col">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type={"password"}
-                      placeholder="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Log In</Button>
-          </form>
-        </Form>
-      </div>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type={"password"}
+                          placeholder="password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </CardContent>
+            <CardFooter className="flex flex-row">
+              <Button className="grow" type="submit">
+                Log In
+              </Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
     </div>
   );
 };

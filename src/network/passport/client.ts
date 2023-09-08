@@ -28,28 +28,30 @@ export const login = async (
 export const register = async (formData: {
   email: string;
   password: string;
-}) => {
+}): Promise<Result<string, string>> => {
   const url = BASE_URL + ENDPOINTS.REGISTER;
   try {
     const res = await axios.post(url, formData);
-    return { status: "success", data: res.data.data };
+    return returnSuccess<string, string>(res.data.data);
   } catch (e) {
     console.error("An unexpected error occurred:", e);
+    return returnError<string, string>("Something went wrong");
   }
 };
 
 export const updateProfile = async (formData: {
   username?: string;
   profilePic?: string;
-}) => {
+}): Promise<Result<string, string>> => {
   const url = BASE_URL + ENDPOINTS.UPDATE;
   const accessToken = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
   try {
     const headers = { Authorization: `Bearer ${accessToken}` };
 
     const res = await axios.post(url, formData, { headers: headers });
-    return { status: "success", data: res.data.data };
+    return returnSuccess<string, string>(res.data.data);
   } catch (e) {
     console.error("An unexpected error occurred:", e);
+    return returnError<string, string>("Something went wrong");
   }
 };

@@ -13,8 +13,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { LOCALSTORAGE_JWT_KEY, PATHS } from "@/commons/constants";
-import { useSetPayload } from "@/redux/utils";
+import { PATHS } from "@/commons/constants";
 import { useNavigate } from "react-router";
 import { handleLogin } from "@/lib/authutils";
 import { useDispatch } from "react-redux";
@@ -24,15 +23,10 @@ const FormSchema = z.object({
   password: z.string().min(8, "Password must have at least 8 characters"),
 });
 
-const storeJwt = (token: string) => {
-  localStorage.setItem(LOCALSTORAGE_JWT_KEY, token);
-};
-
 export const LoginForm = () => {
   const dispatch = useDispatch();
 
   const { toast } = useToast();
-  const setPayload = useSetPayload();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -40,18 +34,29 @@ export const LoginForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
-    handleLogin(values, dispatch).then(({ status, data }) => {
-      if (status === "error") {
+    handleLogin(values, dispatch).then(({ ok, err }) => {
+      if (ok) {
+        // storeJwt(ok.authToken);
+        // setPayload(ok.authToken);
+        navigate(PATHS.DASHBOARD);
+      } else {
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
-          description: data,
+          description: err,
         });
-      } else {
-        storeJwt(data);
-        setPayload(data);
-        navigate(PATHS.DASHBOARD);
       }
+      // if (status === "error") {
+      //   toast({
+      //     variant: "destructive",
+      //     title: "Uh oh! Something went wrong.",
+      //     description: data,
+      //   });
+      // } else {
+      //   storeJwt(data);
+      //   setPayload(data);
+      //   navigate(PATHS.DASHBOARD);
+      // }
     });
   }
 

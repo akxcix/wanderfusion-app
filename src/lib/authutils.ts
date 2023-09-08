@@ -1,24 +1,28 @@
 import { setPayload } from "@/redux/utils";
-import { login } from "@/network/passport/client"; // your existing apiCall file
-import { LOCALSTORAGE_JWT_KEY } from "@/commons/constants";
+import { login } from "@/network/passport/client";
+import { Dispatch } from "redux";
+import { LOCAL_STORAGE_KEYS } from "@/commons/constants";
+import { Result, returnError, returnSuccess } from "@/baseTypes";
 
 export const handleLogin = async (
   formData: { email: string; password: string },
-  dispatch: any
-) => {
-  const response = await login(formData);
-  if (response.status === "success") {
-    localStorage.setItem(LOCALSTORAGE_JWT_KEY, response.data.accessToken);
-    localStorage.setItem("refreshToken", response.data.refreshToken);
-    setPayload(dispatch, response.data);
+  dispatch: Dispatch
+): Promise<Result<boolean, string>> => {
+  const { ok, err } = await login(formData.email, formData.password);
+  if (ok) {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN, ok.authToken);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN, ok.refreshToken);
+    setPayload(dispatch, ok.authToken);
+    return returnSuccess<boolean, string>(true);
+  } else {
+    return returnError<boolean, string>(err);
   }
-  return response;
 };
 
-export const handleLogout = (dispatch: any) => {
+export const handleLogout = (dispatch: Dispatch) => {
   // Remove tokens from localStorage
-  localStorage.removeItem(LOCALSTORAGE_JWT_KEY);
-  localStorage.removeItem("refreshToken");
+  localStorage.removeItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
+  localStorage.removeItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN);
 
   // Reset Redux state
   setPayload(dispatch, null);

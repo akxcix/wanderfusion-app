@@ -1,38 +1,27 @@
-import { HOST_PASSPORT, LOCALSTORAGE_JWT_KEY } from "@/commons/constants";
+import { HOSTS, LOCAL_STORAGE_KEYS } from "@/commons/constants";
 import axios from "axios";
+import { LoginRequest, LoginResponse } from "./types";
+import { Result, returnError, returnSuccess } from "@/baseTypes";
 
-const BASE_URL = HOST_PASSPORT;
+const BASE_URL = HOSTS.PASSPORT;
 const ENDPOINTS = {
   LOGIN: "/users/login",
   REGISTER: "/users/register",
   UPDATE: "/users/update",
 };
 
-interface ErrorResponse {
-  status: number;
-  error: string;
-}
-
-interface AxiosError extends Error {
-  response?: {
-    data: ErrorResponse;
-    status: number;
-  };
-}
-
-export const login = async (formData: { email: string; password: string }) => {
+export const login = async (
+  email: string,
+  password: string
+): Promise<Result<LoginResponse, string>> => {
   const url = BASE_URL + ENDPOINTS.LOGIN;
+  const payload: LoginRequest = { email, password };
   try {
-    const res = await axios.post(url, formData);
-    return { status: "success", data: res.data.data };
-  } catch (error) {
-    console.log(error);
-    const axiosError = error as AxiosError;
-    if (axiosError.response) {
-      return { status: "error", data: axiosError.response.data.error };
-    } else {
-      return { status: "error", data: "Something unkown happened" };
-    }
+    const res = await axios.post(url, payload);
+    return returnSuccess<LoginResponse, string>(res.data.data);
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
+    return returnError<LoginResponse, string>("Something went wrong");
   }
 };
 
@@ -44,14 +33,8 @@ export const register = async (formData: {
   try {
     const res = await axios.post(url, formData);
     return { status: "success", data: res.data.data };
-  } catch (error) {
-    console.log(error);
-    const axiosError = error as AxiosError;
-    if (axiosError.response) {
-      return { status: "error", data: axiosError.response.data.error };
-    } else {
-      return { status: "error", data: "Something unkown happened" };
-    }
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
   }
 };
 
@@ -60,19 +43,13 @@ export const updateProfile = async (formData: {
   profilePic?: string;
 }) => {
   const url = BASE_URL + ENDPOINTS.UPDATE;
-  const accessToken = localStorage.getItem(LOCALSTORAGE_JWT_KEY);
+  const accessToken = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
   try {
     const headers = { Authorization: `Bearer ${accessToken}` };
 
     const res = await axios.post(url, formData, { headers: headers });
     return { status: "success", data: res.data.data };
-  } catch (error) {
-    console.log(error);
-    const axiosError = error as AxiosError;
-    if (axiosError.response) {
-      return { status: "error", data: axiosError.response.data.error };
-    } else {
-      return { status: "error", data: "Something unkown happened" };
-    }
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
   }
 };

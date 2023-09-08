@@ -1,8 +1,8 @@
-import { HOST_NOMADCORE, LOCALSTORAGE_JWT_KEY } from "@/commons/constants";
+import { HOSTS, LOCAL_STORAGE_KEYS } from "@/commons/constants";
 import axios from "axios";
 import { GetGroupsResponse, Root } from "./types";
 
-const BASE_URL = HOST_NOMADCORE;
+const BASE_URL = HOSTS.NOMADCORE;
 const ENDPOINTS = {
   GET_GROUPS: "/groups",
   POST_NEW_DATES: "/groups/dates/new",
@@ -10,7 +10,7 @@ const ENDPOINTS = {
 };
 
 const getAuthHeaders = () => {
-  const accessToken = localStorage.getItem(LOCALSTORAGE_JWT_KEY);
+  const accessToken = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
   const headers = {
     Authorization: `Bearer ${accessToken}`,
     "Content-Type": "application/json",

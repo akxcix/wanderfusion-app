@@ -3,7 +3,7 @@ import { Home } from "@/pages/home/home";
 import { Login } from "@/pages/login/login";
 import { Register } from "@/pages/register/register";
 import { NotFound } from "@/pages/errors/notfound";
-import { LOCALSTORAGE_JWT_KEY, PATHS } from "@/commons/constants";
+import { LOCAL_STORAGE_KEYS, PATHS } from "@/commons/constants";
 import { useSetPayload } from "@/redux/utils";
 import Layout from "@/pages/layout/layout";
 import { UpdateProfile } from "@/pages/updateprofile/updateprofile";
@@ -76,7 +76,7 @@ const router = createBrowserRouter([
 
 function App() {
   const setPayload = useSetPayload();
-  const existingJwt = localStorage.getItem(LOCALSTORAGE_JWT_KEY);
+  const existingJwt = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
   if (existingJwt) {
     setPayload(existingJwt);
   }

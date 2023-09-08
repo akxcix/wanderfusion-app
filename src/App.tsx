@@ -3,12 +3,14 @@ import { Home } from "@/pages/home/home";
 import { Login } from "@/pages/login/login";
 import { Register } from "@/pages/register/register";
 import { NotFound } from "@/pages/errors/notfound";
-import { PATHS } from "@/commons/constants";
+import { LOCAL_STORAGE_KEYS, PATHS } from "@/commons/constants";
 import Layout from "@/pages/layout/layout";
 import { UpdateProfile } from "@/pages/updateprofile/updateprofile";
 import CalendarPicker from "@/pages/calendar/picker";
 import { Dashboard } from "./pages/dashboard/dashboard";
 import { CreateGroup } from "./pages/createGroup/createGroup";
+import { useAppDispatch } from "./store/hooks";
+import { setUserFromJwt } from "./store/userSlice";
 
 const router = createBrowserRouter([
   {
@@ -74,6 +76,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const dispatch = useAppDispatch();
+  const existingAuthToken = localStorage.getItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN);
+  if (existingAuthToken) {
+    dispatch(setUserFromJwt(existingAuthToken));
+  }
   return (
     <div className="app">
       <RouterProvider router={router} />

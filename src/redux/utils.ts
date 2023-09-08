@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import jwtDecode from "jwt-decode";
 import { Payload, SetPayloadAction } from "./types";
 import { RootState } from "./types"; // Import RootState from your store.ts
+import { Dispatch } from "redux";
 
 export const useSetPayload = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export const useGetProfilePic = () => {
   return jwtPayload ? jwtPayload.profilePicture : undefined;
 };
 
-export const setPayload = (dispatch: any, payload: any) => {
+export const setPayload = (dispatch: Dispatch, payload: any) => {
   dispatch({ type: "SET_JWT_PAYLOAD", payload });
 };
 

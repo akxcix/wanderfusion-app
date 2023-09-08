@@ -17,6 +17,7 @@ import { PATHS } from "@/commons/constants";
 import { useNavigate } from "react-router";
 import { handleLogin } from "@/lib/authutils";
 import { useDispatch } from "react-redux";
+import { useSetPayload } from "@/redux/utils";
 
 const FormSchema = z.object({
   email: z.string().email("email is invalid"),
@@ -25,6 +26,7 @@ const FormSchema = z.object({
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
+  const setPayload = useSetPayload();
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ export const LoginForm = () => {
     handleLogin(values, dispatch).then(({ ok, err }) => {
       if (ok) {
         // storeJwt(ok.authToken);
-        // setPayload(ok.authToken);
+        setPayload(ok);
         navigate(PATHS.DASHBOARD);
       } else {
         toast({
@@ -46,17 +48,6 @@ export const LoginForm = () => {
           description: err,
         });
       }
-      // if (status === "error") {
-      //   toast({
-      //     variant: "destructive",
-      //     title: "Uh oh! Something went wrong.",
-      //     description: data,
-      //   });
-      // } else {
-      //   storeJwt(data);
-      //   setPayload(data);
-      //   navigate(PATHS.DASHBOARD);
-      // }
     });
   }
 

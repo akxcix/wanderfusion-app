@@ -31,10 +31,12 @@ api.interceptors.response.use(
         const token = res.data.data;
 
         localStorage.setItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN, token);
+
         originalRequest.headers.Authorization = `Bearer ${token}`;
         return axios(originalRequest);
       } catch (err) {
         console.error("An unexpected error occurred:", err);
+
         return Promise.reject(err);
       }
     }

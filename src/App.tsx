@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React from "react";
 import { Home } from "@/pages/home/home";
 import { Login } from "@/pages/login/login";
 import { Register } from "@/pages/register/register";
@@ -12,63 +13,21 @@ import { CreateGroup } from "./pages/createGroup/createGroup";
 import { useAppDispatch } from "./store/hooks";
 import { setUserFromJwt } from "./store/userSlice";
 
+const routes = [
+  { path: PATHS.HOME, component: Home },
+  { path: PATHS.LOGIN, component: Login },
+  { path: PATHS.REGISTER, component: Register },
+  { path: PATHS.DASHBOARD, component: Dashboard },
+  { path: PATHS.UPDATE_PROFILE, component: UpdateProfile },
+  { path: PATHS.CREATE_GROUP, component: CreateGroup },
+  { path: PATHS.UPDATE_CALENDAR, component: CalendarPicker },
+];
+
 const router = createBrowserRouter([
-  {
-    path: PATHS.HOME,
-    element: (
-      <Layout>
-        <Home />
-      </Layout>
-    ),
-  },
-  {
-    path: PATHS.LOGIN,
-    element: (
-      <Layout>
-        <Login />
-      </Layout>
-    ),
-  },
-  {
-    path: PATHS.REGISTER,
-    element: (
-      <Layout>
-        <Register />
-      </Layout>
-    ),
-  },
-  {
-    path: PATHS.DASHBOARD,
-    element: (
-      <Layout>
-        <Dashboard />
-      </Layout>
-    ),
-  },
-  {
-    path: PATHS.UPDATE_PROFILE,
-    element: (
-      <Layout>
-        <UpdateProfile />
-      </Layout>
-    ),
-  },
-  {
-    path: PATHS.CREATE_GROUP,
-    element: (
-      <Layout>
-        <CreateGroup />
-      </Layout>
-    ),
-  },
-  {
-    path: PATHS.UPDATE_CALENDAR,
-    element: (
-      <Layout>
-        <CalendarPicker />
-      </Layout>
-    ),
-  },
+  ...routes.map(({ path, component }) => ({
+    path,
+    element: <Layout>{React.createElement(component)}</Layout>,
+  })),
   {
     path: "*",
     element: <NotFound />,

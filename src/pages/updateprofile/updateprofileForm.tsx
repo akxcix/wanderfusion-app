@@ -16,7 +16,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { PATHS } from "@/commons/constants";
 import { useNavigate } from "react-router";
-import { updateProfile } from "@/network/passport/client";
+import { renewRefresh, updateProfile } from "@/network/passport/client";
 
 export const UpdateProfileForm = () => {
   const { toast } = useToast();
@@ -34,16 +34,39 @@ export const UpdateProfileForm = () => {
     resolver: zodResolver(FormSchema),
   });
 
+  const errorToast = (err: string | undefined) => {
+    if (!err) {
+      return;
+    }
+
+    toast({
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description: err,
+    });
+  };
+
+  const successToast = () => {
+    toast({
+      title: "Succesfully Updated Profile!",
+      description:
+        "changes can sometimes take upto 5 minutes to reflect everywhere",
+    });
+  };
+
   function onSubmit(values: z.infer<typeof FormSchema>) {
     updateProfile(values).then(({ ok, err }) => {
       if (ok) {
-        navigate(PATHS.DASHBOARD);
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: err,
+        renewRefresh().then(({ ok, err }) => {
+          if (ok) {
+            navigate(PATHS.DASHBOARD);
+            successToast();
+          } else {
+            errorToast(err);
+          }
         });
+      } else {
+        errorToast(err);
       }
     });
   }

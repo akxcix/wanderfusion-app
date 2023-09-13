@@ -9,10 +9,18 @@ export interface LoginResponse {
   authToken: string;
 }
 
+export interface RefreshResponse {
+  jwt: string;
+}
+
 // requests ---------------------------------------------------------------------------------------
 export interface LoginRequest {
   email: string;
   password: string;
+}
+
+export interface RefreshRequest {
+  jwt: string;
 }
 
 export interface RegisterRequest {

@@ -1,13 +1,21 @@
-import { HOSTS } from "@/commons/constants";
-import { LoginRequest, LoginResponse } from "./types";
+import { HOSTS, LOCAL_STORAGE_KEYS } from "@/commons/constants";
+import {
+  LoginRequest,
+  LoginResponse,
+  RefreshRequest,
+  RefreshResponse,
+} from "./types";
 import { Result, returnError, returnSuccess } from "@/baseTypes";
 import api from "../client";
+import axios from "axios";
 
 const BASE_URL = HOSTS.PASSPORT;
-const ENDPOINTS = {
+export const ENDPOINTS = {
   LOGIN: "/users/login",
   REGISTER: "/users/register",
-  UPDATE: "/users/update",
+  UPDATE: "/users/me",
+  RENEW_REFRESH: "/auth/tokens/renew-refresh",
+  RENEW_AUTH: "/auth/tokens/renew-auth",
 };
 
 export const login = async (
@@ -39,13 +47,56 @@ export const register = async (formData: {
   }
 };
 
+export const renewRefresh = async (): Promise<
+  Result<RefreshResponse, string>
+> => {
+  const url = BASE_URL + ENDPOINTS.RENEW_REFRESH;
+  try {
+    const REFRESH_TOKEN = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.REFRESH_TOKEN
+    );
+    if (!REFRESH_TOKEN) {
+      return returnError<RefreshResponse, string>("No refresh token found");
+    }
+    const payload: RefreshRequest = {
+      jwt: REFRESH_TOKEN,
+    };
+    const res = await axios.post(url, payload);
+    localStorage.setItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN, res.data.data.jwt);
+    return returnSuccess<RefreshResponse, string>(res.data.data);
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
+    return returnError<RefreshResponse, string>("Something went wrong");
+  }
+};
+
+export const renewAuth = async (): Promise<Result<RefreshResponse, string>> => {
+  const url = BASE_URL + ENDPOINTS.RENEW_AUTH;
+  try {
+    const REFRESH_TOKEN = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.REFRESH_TOKEN
+    );
+    if (!REFRESH_TOKEN) {
+      return returnError<RefreshResponse, string>("No refresh token found");
+    }
+    const payload: RefreshRequest = {
+      jwt: REFRESH_TOKEN,
+    };
+    const res = await axios.post(url, payload);
+    return returnSuccess<RefreshResponse, string>(res.data.data);
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
+    return returnError<RefreshResponse, string>("Something went wrong");
+  }
+};
+
 export const updateProfile = async (formData: {
   username?: string;
   profilePic?: string;
 }): Promise<Result<string, string>> => {
   const url = BASE_URL + ENDPOINTS.UPDATE;
   try {
-    const res = await api.post(url, formData);
+    const res = await api.put(url, formData);
     return returnSuccess<string, string>(res.data.data);
   } catch (e) {
     console.error("An unexpected error occurred:", e);

@@ -1,4 +1,6 @@
-import { HOSTS, LOCAL_STORAGE_KEYS } from "@/commons/constants";
+import { authEventEmitter } from "@/auth/authEventEmitter";
+import { LOCAL_STORAGE_KEYS } from "@/commons/constants";
+import { renewAuth } from "@/network/passport/client";
 import axios from "axios";
 
 const api = axios.create();
@@ -22,21 +24,19 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem(
-          LOCAL_STORAGE_KEYS.REFRESH_TOKEN
-        );
-        const res = await axios.post(HOSTS.PASSPORT + "/users/token/refresh", {
-          jwt: refreshToken,
-        });
-        const token = res.data.data;
+        const res = await renewAuth();
+        if (res.ok) {
+          const token = res.ok.jwt;
+          localStorage.setItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN, token);
+          authEventEmitter.emit("authTokenUpdated", token);
 
-        localStorage.setItem(LOCAL_STORAGE_KEYS.AUTH_TOKEN, token);
-
-        originalRequest.headers.Authorization = `Bearer ${token}`;
-        return axios(originalRequest);
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return axios(originalRequest);
+        } else {
+          throw new Error(res.err);
+        }
       } catch (err) {
         console.error("An unexpected error occurred:", err);
-
         return Promise.reject(err);
       }
     }

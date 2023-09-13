@@ -47,18 +47,23 @@ function App() {
   }
 
   useEffect(() => {
-    // newToken is explicitly typed as string because the type of the event
-    const handleTokenUpdate = (newToken) => {
+    const handleTokenUpdate = (newToken: string | unknown) => {
       if (typeof newToken !== "string") {
         throw new Error(`Expected string, got ${typeof newToken}`);
       }
       dispatch(setUserFromJwt(newToken));
     };
 
-    authEventEmitter.on("authTokenUpdated", handleTokenUpdate);
+    authEventEmitter.on(
+      "authTokenUpdated",
+      handleTokenUpdate as (newToken: string | unknown) => void
+    );
 
     return () => {
-      authEventEmitter.off("authTokenUpdated", handleTokenUpdate);
+      authEventEmitter.off(
+        "authTokenUpdated",
+        handleTokenUpdate as (newToken: string | unknown) => void
+      );
     };
   }, [dispatch]);
   return (

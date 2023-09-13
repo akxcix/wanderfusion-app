@@ -16,45 +16,57 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { PATHS } from "@/commons/constants";
 import { useNavigate } from "react-router";
-import { updateProfile } from "@/network/passport/client";
-import { useGetProfilePic, useGetUsername } from "@/redux/utils";
-import { randomUsername } from "@/lib/utils";
+import { renewRefresh, updateProfile } from "@/network/passport/client";
 
 export const UpdateProfileForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const username = useGetUsername() || randomUsername();
-  const profilePic = useGetProfilePic() || "";
 
   const FormSchema = z.object({
     username: z
       .string()
       .refine((s) => !s.includes(" "), "spaces are not allowed")
-      .default(username)
       .optional(),
-    profilePic: z
-      .string()
-      .url("invalid url")
-      .default(profilePic)
-      .optional()
-      .or(z.literal("")),
+    profilePic: z.string().url("invalid url").optional().or(z.literal("")),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: { username, profilePic },
   });
 
+  const errorToast = (err: string | undefined) => {
+    if (!err) {
+      return;
+    }
+
+    toast({
+      variant: "destructive",
+      title: "Uh oh! Something went wrong.",
+      description: err,
+    });
+  };
+
+  const successToast = () => {
+    toast({
+      title: "Succesfully Updated Profile!",
+      description:
+        "changes can sometimes take upto 5 minutes to reflect everywhere",
+    });
+  };
+
   function onSubmit(values: z.infer<typeof FormSchema>) {
-    updateProfile(values).then(({ status, data }) => {
-      if (status === "error") {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: data,
+    updateProfile(values).then(({ ok, err }) => {
+      if (ok) {
+        renewRefresh().then(({ ok, err }) => {
+          if (ok) {
+            navigate(PATHS.DASHBOARD);
+            successToast();
+          } else {
+            errorToast(err);
+          }
         });
       } else {
-        navigate(PATHS.DASHBOARD);
+        errorToast(err);
       }
     });
   }
@@ -75,11 +87,7 @@ export const UpdateProfileForm = () => {
                   {" "}
                   <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="frootloops511"
-                      defaultValue={username}
-                    />
+                    <Input {...field} placeholder="frootloops511" />
                   </FormControl>
                   <FormDescription>
                     This is your username. This is what everyone else on the
@@ -100,7 +108,6 @@ export const UpdateProfileForm = () => {
                     <Input
                       {...field}
                       placeholder="https://github.com/<username>.png"
-                      defaultValue={profilePic}
                     />
                   </FormControl>
                   <FormDescription>

@@ -1,6 +1,4 @@
 import { TypographyH1 } from "@/components/ui/typography";
-import { formatUsername } from "@/lib/utils";
-import { useGetEmail, useGetUsername } from "@/redux/utils";
 
 import {
   Select,
@@ -19,9 +17,6 @@ import { useNavigate } from "react-router";
 import { PATHS } from "@/commons/constants";
 
 export const Dashboard = () => {
-  const email = useGetEmail();
-  const rawUsername = useGetUsername();
-  const username = formatUsername(rawUsername);
   const [groups, setGroups] = useState<Group[]>([]);
   const navigate = useNavigate();
   const [selectedCalId, setSelectedCalId] = useState<string>("");
@@ -55,7 +50,7 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <TypographyH1>Hola, {username ? username : email}</TypographyH1>
+      <TypographyH1>Hola!</TypographyH1>
 
       <div className="flex flex-row p-2 space-x-2">
         <div className="border p-2">
@@ -98,11 +93,6 @@ export const Dashboard = () => {
                 Add Dates
               </Button>
             )}
-          </div>
-          <div>
-            <Button onClick={() => navigate(PATHS.CREATE_CALENDAR)}>
-              Create New Group
-            </Button>
           </div>
         </div>
       </div>

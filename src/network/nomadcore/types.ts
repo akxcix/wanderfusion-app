@@ -17,6 +17,7 @@ export interface GetGroupResponse {
 // base types -------------------------------------------------------------------------------------
 export interface Group {
   id: string;
+  createdAt: string;
   name: string;
   description: string;
 }

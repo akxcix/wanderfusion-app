@@ -17,7 +17,7 @@ export const ENDPOINTS = {
   UPDATE: "/users/me",
   RENEW_REFRESH: "/auth/tokens/renew-refresh",
   RENEW_AUTH: "/auth/tokens/renew-auth",
-  GET_USER_BY_USER_IDS: "/users/",
+  GET_USER_BY_USER_IDS: "/users/uuid/",
 };
 
 export const login = async (

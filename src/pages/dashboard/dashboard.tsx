@@ -26,7 +26,11 @@ export const Dashboard = () => {
     getGroups()
       .then((data) => {
         if (data) {
-          setGroups(data?.groups);
+          setGroups(
+            data?.groups.sort(
+              (a, b) => +new Date(b.createdAt) - +new Date(a.createdAt)
+            )
+          );
         }
       })
       .catch((err) => console.error(err));

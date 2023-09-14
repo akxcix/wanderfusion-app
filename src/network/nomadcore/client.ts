@@ -8,6 +8,7 @@ const ENDPOINTS = {
   GET_GROUPS: "/groups/me",
   GET_GROUP_BY_ID: "/groups/:id",
   POST_NEW_DATES: "/groups/dates/new",
+  POST_NEW_USERS: "/groups/users/new",
   POST_NEW_GROUP: "/groups/new",
 };
 
@@ -71,5 +72,24 @@ export const createNewCalendar = async (formData: {
     return response.data.data;
   } catch (e) {
     console.error("failed to create new calendar");
+  }
+};
+
+export const addNewUsersToGroup = async (
+  groupId: string,
+  username: string
+): Promise<Result<string, string>> => {
+  const url = `${BASE_URL}${ENDPOINTS.POST_NEW_USERS}`;
+  const payload = {
+    groupId,
+    usernames: [username],
+  };
+
+  try {
+    const response = await api.post(url, payload);
+    return returnSuccess<string, string>(response.data.data);
+  } catch (e) {
+    console.error("Failed to add new users:", e);
+    return returnError<string, string>("Something went wrong");
   }
 };

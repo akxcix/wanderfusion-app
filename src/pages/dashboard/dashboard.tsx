@@ -1,45 +1,29 @@
-import { TypographyH1 } from "@/components/ui/typography";
-
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import CalendarViewer from "../calendar/viewer";
+  TypographyH1,
+  TypographyH2,
+  TypographyMuted,
+} from "@/components/ui/typography";
+
 import { useEffect, useState } from "react";
-import { fetchPublicCalendars } from "@/network/nomadcore/client";
+import { getGroups } from "@/network/nomadcore/client";
 import { Group } from "@/network/nomadcore/types";
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { PATHS } from "@/commons/constants";
+import { AddIconButton } from "@/components/ui/addiconbutton";
 
 export const Dashboard = () => {
   const [groups, setGroups] = useState<Group[]>([]);
   const navigate = useNavigate();
-  const [selectedCalId, setSelectedCalId] = useState<string>("");
-  const [selectedCalDateRange, setSelectedCalDateRange] = useState<Date[][]>(
-    []
-  );
-
-  const handleSelect = (e: string) => {
-    console.log(e);
-    setSelectedCalId(e);
-    const selectedDates = groups
-      .filter((x) => x.id === e)
-      .at(0)
-      ?.dates?.map((x) => [new Date(x.from), new Date(x.to)]);
-    if (selectedDates !== undefined) {
-      setSelectedCalDateRange(selectedDates);
-    } else {
-      setSelectedCalDateRange([]);
-    }
-  };
 
   useEffect(() => {
-    fetchPublicCalendars()
+    getGroups()
       .then((data) => {
         if (data) {
           setGroups(data?.groups);
@@ -49,52 +33,47 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div>
-      <TypographyH1>Hola!</TypographyH1>
+    <div className="flex flex-col w-1/2">
+      <TypographyH1>Your Groups</TypographyH1>
+      <div className="flex flex-row items-center p-2">
+        <TypographyMuted>Total Groups: {groups.length}</TypographyMuted>
+        <div className="flex-grow"></div>
+        <AddIconButton
+          name={"Create Group"}
+          onclick={() => navigate(PATHS.CREATE_GROUP)}
+          defaultVariantCondition={groups.length === 0}
+        />
+      </div>
 
-      <div className="flex flex-row p-2 space-x-2">
-        <div className="border p-2">
-          <CalendarViewer dateRanges={selectedCalDateRange} />
-        </div>
-
-        <div className="flex flex-col s-y-8">
-          {groups.length > 0 ? (
-            <div className="selectCal">
-              <Select onValueChange={handleSelect}>
-                <SelectTrigger className="grow">
-                  <SelectValue placeholder="Select a calendar" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {groups.map((x) => (
-                      <SelectItem key={x.id} value={x.id}>
-                        {x.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-          ) : (
-            <div></div>
-          )}
-
-          <div>
-            {selectedCalId === "" ? (
-              <div></div>
-            ) : (
-              <Button
-                onClick={() =>
-                  navigate(PATHS.UPDATE_CALENDAR, {
-                    state: { calendarId: selectedCalId },
-                  })
-                }
-              >
-                Add Dates
-              </Button>
-            )}
+      <div className="flex flex-col s-y-8">
+        {groups.length > 0 ? (
+          <div className="grid grid-cols-2 gap-4">
+            {groups.map((x) => (
+              <div key={x.id} className="p-2">
+                <Card>
+                  <CardHeader>
+                    <TypographyH2>
+                      <div className="truncate w-full">{x.name}</div>
+                    </TypographyH2>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="truncate w-full">{x.description}</div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button
+                      variant={"default"}
+                      onClick={() => navigate(`${PATHS.VIEW_GROUP}/${x.id}`)}
+                    >
+                      Go to Group
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </div>
+            ))}
           </div>
-        </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

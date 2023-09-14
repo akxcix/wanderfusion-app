@@ -1,21 +1,36 @@
 import { HOSTS } from "@/commons/constants";
-import { GetGroupsResponse, Root } from "./types";
+import { GetGroupResponse, GetGroupsResponse, Root } from "./types";
 import api from "../client";
+import { Result, returnError, returnSuccess } from "@/baseTypes";
 
 const BASE_URL = HOSTS.NOMADCORE;
 const ENDPOINTS = {
-  GET_GROUPS: "/groups",
+  GET_GROUPS: "/groups/me",
+  GET_GROUP_BY_ID: "/groups/:id",
   POST_NEW_DATES: "/groups/dates/new",
   POST_NEW_GROUP: "/groups/new",
 };
 
-export const fetchPublicCalendars = async () => {
+export const getGroups = async () => {
   const url = BASE_URL + ENDPOINTS.GET_GROUPS;
   try {
     const response = await api.get<Root<GetGroupsResponse>>(url);
     return response.data.data;
   } catch (e) {
     console.error("An unexpected error occurred:", e);
+  }
+};
+
+export const getGroupByID = async (
+  id: string
+): Promise<Result<GetGroupResponse, string>> => {
+  const url = BASE_URL + ENDPOINTS.GET_GROUP_BY_ID.replace(":id", id);
+  try {
+    const response = await api.get<Root<GetGroupResponse>>(url);
+    return returnSuccess<GetGroupResponse, string>(response.data.data);
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
+    return returnError<GetGroupResponse, string>("Something went wrong");
   }
 };
 

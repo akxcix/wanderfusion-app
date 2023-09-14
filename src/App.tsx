@@ -14,6 +14,8 @@ import { CreateGroup } from "./pages/createGroup/createGroup";
 import { useAppDispatch } from "./store/hooks";
 import { setUserFromJwt } from "./store/userSlice";
 import { authEventEmitter } from "./auth/authEventEmitter";
+import { ViewGroup } from "./pages/viewgroup/view-group";
+import { UserProfile } from "./pages/userprofile/userprofile";
 
 const routes = [
   { path: PATHS.HOME, component: Home },
@@ -23,6 +25,8 @@ const routes = [
   { path: PATHS.UPDATE_PROFILE, component: UpdateProfile },
   { path: PATHS.CREATE_GROUP, component: CreateGroup },
   { path: PATHS.UPDATE_CALENDAR, component: CalendarPicker },
+  { path: `${PATHS.VIEW_GROUP}/:groupId`, component: ViewGroup },
+  { path: `${PATHS.VIEW_PROFILE}/:username`, component: UserProfile },
 ];
 
 const router = createBrowserRouter([

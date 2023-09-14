@@ -20,6 +20,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./sheet";
+import { AvatarWithUsername } from "./avatarwithusername";
 
 const Navbar: React.FC = ({
   className,
@@ -96,21 +97,16 @@ const SignedInNav = ({ profilePic, username }: SignedInNavProps) => {
           </div>
         </SheetTrigger>
         <SheetContent>
-          <SheetHeader className="my-5">
-            <SheetTitle className="flex flex-row items-center justify-left gap-4">
-              <Avatar>
-                <AvatarImage src={profilePic} alt={"User Profile Picture"} />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              @{username}
-            </SheetTitle>
-            {/* <SheetDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </SheetDescription> */}
-          </SheetHeader>
-          <Separator />
           <SheetClose className="flex flex-col space-y-2 w-full my-2">
+            <SheetHeader className="flex-grow w-full">
+              <SheetTitle>
+                <AvatarWithUsername
+                  username={username}
+                  avatarUrl={profilePic}
+                />
+              </SheetTitle>
+            </SheetHeader>
+            <Separator />
             <Button
               className="flex-grow w-full"
               variant={"ghost"}

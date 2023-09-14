@@ -1,8 +1,10 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { TypographyMutedCentered } from "@/components/ui/typography";
 import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import { useState } from "react";
 
 interface CalendarViewerProps {
-  dateRanges: Date[][];
+  dateRanges?: Date[][];
 }
 
 const CalendarViewer = ({ dateRanges }: CalendarViewerProps) => {
@@ -27,9 +29,9 @@ const CalendarViewer = ({ dateRanges }: CalendarViewerProps) => {
   };
 
   const getColor = (date: Date) => {
-    for (const range of dateRanges) {
+    for (const range of dateRanges ?? []) {
       if (isInRange(date, range)) {
-        return "bg-blue-200";
+        return "bg-slate-900";
       }
     }
     return "";
@@ -50,35 +52,54 @@ const CalendarViewer = ({ dateRanges }: CalendarViewerProps) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="flex flex-row items-center justify-center">
-        <button onClick={goPrevMonth} className="p-2">
-          <ArrowLeftIcon />
-        </button>
-        <div className="text-center">
-          {currentMonth.toLocaleString("default", { month: "long" })}
-        </div>
-        <button onClick={goNextMonth} className="p-2">
-          <ArrowRightIcon />
-        </button>
-      </div>
-      <div className="grid grid-cols-7 p-5 w-72 place-items-center">
-        {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-          <div key={index} className="border p-4 grow text-center">
-            {day}
+    <div className="calendarViewer">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-center">
+          <button onClick={goPrevMonth} className="p-2">
+            <ArrowLeftIcon />
+          </button>
+          <div className="flex-grow" />
+          <div className="text-center">
+            {currentMonth.toLocaleString("default", { month: "long" })}
           </div>
-        ))}
-        {monthDays.map((date, index) => (
-          <div
-            key={index}
-            className={`border p-4 grow text-center ${
-              date ? getColor(date) : ""
-            }`}
-          >
-            {date ? date.getDate() : ""}
+          <div className="flex-grow" />
+          <button onClick={goNextMonth} className="p-2">
+            <ArrowRightIcon />
+          </button>
+        </CardHeader>
+        <CardContent className="flex flex-col">
+          <div className="flex flex-row">
+            {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+              <div
+                key={index}
+                className="flex-grow text-center justify-center border p-2 w-1/6"
+              >
+                <TypographyMutedCentered>{day}</TypographyMutedCentered>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+          <div className="flex flex-col">
+            {Array.from({ length: Math.ceil(monthDays.length / 7) }).map(
+              (_, rowIndex) => (
+                <div key={rowIndex} className="flex flex-row w-full">
+                  {monthDays
+                    .slice(rowIndex * 7, (rowIndex + 1) * 7)
+                    .map((date, index) => (
+                      <div
+                        key={index}
+                        className={`flex-grow text-center justify-center border p-2 w-1/6 ${
+                          date ? getColor(date) : ""
+                        }`}
+                      >
+                        {date ? date.getDate() : ""}
+                      </div>
+                    ))}
+                </div>
+              )
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -77,3 +77,7 @@ export function TypographySmall({ children }: TypographyProps) {
 export function TypographyMuted({ children }: TypographyProps) {
   return <p className="text-left text-sm text-muted-foreground"> {children}</p>;
 }
+
+export function TypographyMutedCentered({ children }: TypographyProps) {
+  return <p className="text-sm text-muted-foreground"> {children}</p>;
+}

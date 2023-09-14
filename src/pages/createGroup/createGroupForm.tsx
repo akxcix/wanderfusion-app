@@ -73,8 +73,7 @@ export const CreateGroupForm = () => {
                   <Input {...field} placeholder="Japan trip with homies" />
                 </FormControl>
                 <FormDescription>
-                  {`This is your Group's name. Keep it shorter than ${maxLenName} characters,
-                  so that it makes sense.`}
+                  {`This is your Group's name. Keep it shorter than ${maxLenName} characters.`}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

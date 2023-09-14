@@ -21,4 +21,6 @@ export const PATHS = {
   UPDATE_PROFILE: "/updateprofile",
   UPDATE_CALENDAR: "/updatecalendar",
   CREATE_GROUP: "/creategroup",
+  VIEW_GROUP: "/viewgroup",
+  VIEW_PROFILE: "/viewprofile",
 };

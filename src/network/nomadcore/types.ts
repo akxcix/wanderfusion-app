@@ -8,16 +8,25 @@ export interface GetGroupsResponse {
   groups: Group[];
 }
 
+export interface GetGroupResponse {
+  group: Group;
+  dates: GroupDate[];
+  users: User[];
+}
+
 // base types -------------------------------------------------------------------------------------
 export interface Group {
   id: string;
   name: string;
-  description?: string;
-  dates?: Date[];
+  description: string;
 }
 
-export interface Date {
+export interface GroupDate {
   id: string;
   from: string;
   to: string;
+}
+
+export interface User {
+  id: string;
 }

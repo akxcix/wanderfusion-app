@@ -4,7 +4,7 @@ import { CreateGroupForm } from "./createGroupForm";
 export function CreateGroup() {
   return (
     <div className="updateProfile">
-      <TypographyH1>Create New Calendar</TypographyH1>
+      <TypographyH1>Create Group</TypographyH1>
       <CreateGroupForm />
     </div>
   );

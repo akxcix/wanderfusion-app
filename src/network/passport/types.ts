@@ -27,3 +27,10 @@ export interface RegisterRequest {
   email: string;
   password: string;
 }
+
+// base types -------------------------------------------------------------------------------------
+export interface Member {
+  id: string;
+  username: string;
+  profilePic: string;
+}

@@ -2,6 +2,7 @@ import { HOSTS, LOCAL_STORAGE_KEYS } from "@/commons/constants";
 import {
   LoginRequest,
   LoginResponse,
+  Member,
   RefreshRequest,
   RefreshResponse,
 } from "./types";
@@ -16,6 +17,7 @@ export const ENDPOINTS = {
   UPDATE: "/users/me",
   RENEW_REFRESH: "/auth/tokens/renew-refresh",
   RENEW_AUTH: "/auth/tokens/renew-auth",
+  GET_USER_BY_USER_IDS: "/users/",
 };
 
 export const login = async (
@@ -101,5 +103,18 @@ export const updateProfile = async (formData: {
   } catch (e) {
     console.error("An unexpected error occurred:", e);
     return returnError<string, string>("Something went wrong");
+  }
+};
+
+export const getUserByUserIDs = async (
+  userIds: string[]
+): Promise<Result<Member[], string>> => {
+  const url = BASE_URL + ENDPOINTS.GET_USER_BY_USER_IDS + userIds.join(",");
+  try {
+    const res = await api.get(url);
+    return returnSuccess<Member[], string>(res.data.data);
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
+    return returnError<Member[], string>("Something went wrong");
   }
 };

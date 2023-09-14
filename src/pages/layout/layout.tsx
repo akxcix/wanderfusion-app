@@ -13,6 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
       <div className="flex flex-col px-5 py-10 items-center justify-center">
         {children}
       </div>
+
       <Toaster />
     </div>
   );

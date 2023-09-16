@@ -6,7 +6,6 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { TypographyLarge, TypographyMuted } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
 import { getUserByUserIDs } from "@/network/passport/client";
@@ -27,203 +26,54 @@ export const GroupChat = ({ groupID, membersIDs }: GroupChatProps) => {
   const [messages, setMessages] = useState([
     {
       username: "wftest2",
-      content: "Hi, how can I help you today?",
+      content: "Hey! Got plans for New Year's?",
     },
     {
       username: "akxcix",
-      content: "Hey, I'm having trouble with my account.",
+      content: "Nothing concrete. Got any ideas?",
     },
     {
       username: "wftest2",
-      content: "What seems to be the problem?",
+      content:
+        "How about a trip across South East Asia? Beaches, jungles, cities, and the works.",
     },
     {
       username: "akxcix",
-      content: "I can't log in.",
+      content: "Sounds tempting. But isn't it pricey?",
+    },
+    {
+      username: "wftest2",
+      content:
+        "It can be, but budget options abound. Plus, planning ahead could cut costs.",
     },
     {
       username: "akxcix",
-      content: "I can't log in.",
+      content: "True. What's the itinerary?",
+    },
+    {
+      username: "wftest2",
+      content:
+        "Start with Bangkok, then Vietnam, maybe hit Bali, and finally Singapore for New Year's fireworks.",
     },
     {
       username: "akxcix",
-      content: "I can't log in.",
+      content: "That's a lot to pack in. What about visas?",
+    },
+    {
+      username: "wftest2",
+      content: "Mostly visa-on-arrival or e-visa. Simple if we stay organized.",
     },
     {
       username: "akxcix",
-      content: "I can't log in.",
+      content: "Sounds manageable. Count me in.",
+    },
+    {
+      username: "wftest2",
+      content: "Awesome! I'll start the planning then.",
     },
     {
       username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
-    },
-    {
-      username: "akxcix",
-      content: "I can't log in.",
+      content: "Can't wait. This will be epic.",
     },
   ]);
 
@@ -276,20 +126,20 @@ export const GroupChat = ({ groupID, membersIDs }: GroupChatProps) => {
               </div>
             </CardHeader>
             <CardContent>
-              <ScrollArea className="h-[850px] p-2">
-                <div className="space-y-2">
-                  {messages.map((message, index) => (
-                    <ChatBubble
-                      key={index}
-                      member={
-                        members.find((x) => x.username === message.username)!
-                      }
-                      content={message.content}
-                      isSelf={message.username === user?.username}
-                    />
-                  ))}
-                </div>
-              </ScrollArea>
+              {/* <ScrollArea className="h-[850px] w-max p-2"> */}
+              <div className="space-y-2">
+                {messages.map((message, index) => (
+                  <ChatBubble
+                    key={index}
+                    member={
+                      members.find((x) => x.username === message.username)!
+                    }
+                    content={message.content}
+                    isSelf={message.username === user?.username}
+                  />
+                ))}
+              </div>
+              {/* </ScrollArea> */}
             </CardContent>
             <CardFooter>
               <form
@@ -329,21 +179,27 @@ export const GroupChat = ({ groupID, membersIDs }: GroupChatProps) => {
 };
 
 interface ChatBubbleProps {
-  member: Member;
+  member?: Member;
   content: string;
   isSelf: boolean;
 }
 const ChatBubble = ({ member, content, isSelf }: ChatBubbleProps) => {
+  if (!member) return <div></div>;
   return (
-    <div
-      className={cn(
-        "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-2 py-1 text-sm",
-        isSelf ? "ml-auto bg-primary text-primary-foreground" : "bg-muted"
-      )}
-    >
-      <div className="flex flex-col">
-        <TypographyMuted>@{member.username}</TypographyMuted>
-        <div className="text-left text-sm">{content}</div>
+    <div className="flex flex-row">
+      {isSelf ? <div className="flex-grow"></div> : <div></div>}
+      <div
+        className={cn(
+          "flex w-max max-w-[50%] flex-col gap-2 rounded-lg px-2 py-1 text-sm border",
+          isSelf
+            ? "bg-primary text-primary-foreground justify-end place-self-end"
+            : "bg-muted"
+        )}
+      >
+        <div className="flex flex-col">
+          <TypographyMuted>@{member.username}</TypographyMuted>
+          <div className="text-left text-sm">{content}</div>
+        </div>
       </div>
     </div>
   );

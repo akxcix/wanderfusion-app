@@ -29,9 +29,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Badge } from "@/components/ui/badge";
 import { GroupChat } from "../groups/groupchat";
+import SimpleMap from "@/components/map/map";
 
 export const ViewGroup = () => {
   const { groupId } = useParams();
@@ -162,7 +161,7 @@ export const ViewGroup = () => {
                   />
                 </CardContent>
               </Card>
-              <Map />
+              <MapComponent />
             </div>
           </div>
         </div>
@@ -189,23 +188,16 @@ const GroupDescription = ({ description }: GroupDescriptionProps) => {
   );
 };
 
-const Map = () => {
+const MapComponent = () => {
   return (
     <div>
       <Card>
         <CardHeader className="flex flex-row space-x-5">
           <TypographyLarge>Map</TypographyLarge>
-          <Badge variant={"outline"}>Coming Soon!</Badge>
         </CardHeader>
         <CardContent>
-          <div className="w-[450px]">
-            <AspectRatio ratio={1 / 1}>
-              <img
-                src="https://wanderfusion.fra1.cdn.digitaloceanspaces.com/public/map-japan.png"
-                alt="Image"
-                className="rounded-md object-cover"
-              />
-            </AspectRatio>
+          <div className="w-[450px] h-[450px]">
+            <SimpleMap />
           </div>
         </CardContent>
       </Card>

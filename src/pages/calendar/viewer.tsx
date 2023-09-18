@@ -31,7 +31,7 @@ const CalendarViewer = ({ dateRanges }: CalendarViewerProps) => {
   const getColor = (date: Date) => {
     for (const range of dateRanges ?? []) {
       if (isInRange(date, range)) {
-        return "bg-slate-900";
+        return "bg-primary text-primary-foreground";
       }
     }
     return "";

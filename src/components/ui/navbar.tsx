@@ -27,8 +27,8 @@ const Navbar: React.FC = ({
   ...props
 }: React.HTMLAttributes<HTMLElement>) => {
   const navigate = useNavigate();
-  const [user, setUser] = React.useState<User | undefined>(undefined);
   const [isSignedIn, setIsSignedIn] = React.useState<boolean>(false);
+  const [user, setUser] = React.useState<User | undefined>(undefined);
   const selectedUser = useAppSelector(userSelector);
 
   useEffect(() => {

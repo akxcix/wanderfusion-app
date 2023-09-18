@@ -29,6 +29,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { GroupChat } from "../groups/groupchat";
 
 export const ViewGroup = () => {
   const { groupId } = useParams();
@@ -70,7 +71,7 @@ export const ViewGroup = () => {
         <div>Loading</div>
       ) : (
         <div>
-          <div className="py-10">
+          <div className="py-5">
             <TypographyH1>{groupName}</TypographyH1>
             <div className="flex flex-row items-center p-2">
               <TypographyMuted>
@@ -118,6 +119,16 @@ export const ViewGroup = () => {
               )}
             </div>
             <div className="flex flex-col w-5/12 space-y-2">
+              {groupId ? (
+                <GroupChat
+                  groupID={groupId}
+                  membersIDs={members.map((x) => x.id)}
+                />
+              ) : (
+                <div></div>
+              )}
+            </div>
+            <div className="flex flex-col w-4/12 space-y-2">
               <Card>
                 <CardHeader>
                   <div className="flex flex-row items-center">
@@ -149,9 +160,7 @@ export const ViewGroup = () => {
                   />
                 </CardContent>
               </Card>
-            </div>
-            <div className="flex flex-col w-4/12 space-y-2">
-              <GroupChat />
+              <MapComponent />
             </div>
           </div>
         </div>
@@ -178,19 +187,22 @@ const GroupDescription = ({ description }: GroupDescriptionProps) => {
   );
 };
 
-const GroupChat = () => {
+const MapComponent = () => {
   return (
     <div>
       <Card>
-        <CardHeader>
-          <TypographyLarge>Chat</TypographyLarge>
-          <TypographyP>Coming Soon!</TypographyP>
+        <CardHeader className="flex flex-row space-x-5">
+          <TypographyLarge>Map</TypographyLarge>
         </CardHeader>
+        <CardContent>
+          <div className="w-[450px] h-[450px]">
+            <div>Map</div>
+          </div>
+        </CardContent>
       </Card>
     </div>
   );
 };
-
 interface MembersCardProps {
   membersIDs?: string[];
   groupId: string;

@@ -30,7 +30,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { GroupChat } from "../groups/groupchat";
-import SimpleMap from "@/components/map/map";
 
 export const ViewGroup = () => {
   const { groupId } = useParams();
@@ -197,7 +196,7 @@ const MapComponent = () => {
         </CardHeader>
         <CardContent>
           <div className="w-[450px] h-[450px]">
-            <SimpleMap />
+            <div>Map</div>
           </div>
         </CardContent>
       </Card>

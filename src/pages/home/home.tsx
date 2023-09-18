@@ -7,12 +7,12 @@ import {
   TypographyH3,
   TypographyP,
 } from "@/components/ui/typography";
-import { LucideTwitter } from "lucide-react";
+import { LucideMail, LucideTwitter } from "lucide-react";
 
 export function Home() {
   return (
     <div className="home flex flex-col items-center justify-center">
-      <div className="flex flex-col w-1/2">
+      <div className="flex flex-col w-1/2 space-y-5">
         <TypographyH1>WanderFusion</TypographyH1>
         <TypographyH2>
           Your Travel Buddy for the Ultimate Group Getaways
@@ -38,13 +38,13 @@ export function Home() {
           <CardHeader>
             <TypographyH2>Contact</TypographyH2>
             <TypographyP>
-              Have any questions? Feel free to reach out to us!
+              Have any questions? Feel free to reach out!
             </TypographyP>
           </CardHeader>
 
-          <CardContent className="flex flex-row">
+          <CardContent className="flex flex-row space-x-4">
             <a
-              className="flex-grow"
+              className="flex flex-row flex-grow"
               href="https://twitter.com/messages/compose?recipient_id=388806300"
             >
               <Button variant={"outline"} className="flex-grow">
@@ -52,9 +52,14 @@ export function Home() {
               </Button>
             </a>
 
-            {/* <Button variant={"ghost"} className="flex-grow">
-              Send an Email
-            </Button> */}
+            <a
+              className="flex flex-row flex-grow"
+              href="mailto:hello@wanderfusion.com"
+            >
+              <Button variant={"outline"} className="flex-grow">
+                <LucideMail className="mr-2 h-4 w-4" /> Send an eMail
+              </Button>
+            </a>
           </CardContent>
         </Card>
       </div>

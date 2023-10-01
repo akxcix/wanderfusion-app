@@ -1,3 +1,4 @@
+import { PATHS } from "@/commons/constants";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -8,8 +9,10 @@ import {
   TypographyP,
 } from "@/components/ui/typography";
 import { LucideMail, LucideTwitter } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export function Home() {
+  const navigate = useNavigate()
   return (
     <div className="home flex flex-col items-center justify-center">
       <div className="flex flex-col w-1/2 space-y-5">
@@ -20,6 +23,16 @@ export function Home() {
         <TypographyH2>
         Simplify. Collaborate. Adventure.
         </TypographyH2>
+        <a href={PATHS.REGISTER}>
+        <Button
+          variant={"default"}
+          onClick={() => {
+            navigate(PATHS.REGISTER);
+          }}
+        >
+          Register
+        </Button>
+      </a>
         <TypographyH2>
         Why Juggle When You Can Wander?
 

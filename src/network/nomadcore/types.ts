@@ -14,6 +14,15 @@ export interface GetGroupResponse {
   users: User[];
 }
 
+export interface GetUserProfileResponse {
+  username: string;
+  createdAt: string;
+  userId: string;
+  bio: string;
+  interests: string;
+  metadata: string;
+}
+
 // base types -------------------------------------------------------------------------------------
 export interface Group {
   id: string;

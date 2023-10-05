@@ -1,5 +1,5 @@
 import { HOSTS } from "@/commons/constants";
-import { GetGroupResponse, GetGroupsResponse, Root } from "./types";
+import { GetGroupResponse, GetGroupsResponse, GetUserProfileResponse, Root } from "./types";
 import api from "../client";
 import { Result, returnError, returnSuccess } from "@/baseTypes";
 
@@ -10,6 +10,7 @@ const ENDPOINTS = {
   POST_NEW_DATES: "/groups/dates/new",
   POST_NEW_USERS: "/groups/users/new",
   POST_NEW_GROUP: "/groups/new",
+  GET_USER_PROFILE : "/users/:username"
 };
 
 export const getGroups = async () => {
@@ -91,5 +92,30 @@ export const addNewUsersToGroup = async (
   } catch (e) {
     console.error("Failed to add new users:", e);
     return returnError<string, string>("Something went wrong");
+  }
+};
+
+// const dummydata = {
+// 	status: 200,
+// 	data: {
+// 		"username": "akxcix",
+// 		"createdAt": "2023-09-29T13:51:27.521472Z",
+// 		"userId": "1f6f96b5-113d-4f71-840f-9a5e99a06ff1",
+// 		"bio": "bio",
+// 		"interests": "injn",
+// 		"metadata": "{\"name\":\"adarsh\"}"
+// 	}
+// }
+
+export const getUserProfile = async (
+  username: string
+): Promise<Result<GetUserProfileResponse, string>> => {
+  const url = BASE_URL + ENDPOINTS.GET_USER_PROFILE.replace(":username", username);
+  try {
+    const response = await api.get<Root<GetUserProfileResponse>>(url);
+    return returnSuccess<GetUserProfileResponse, string>(response.data.data);
+  } catch (e) {
+    console.error("An unexpected error occurred:", e);
+    return returnError<GetUserProfileResponse, string>("Something went wrong");
   }
 };

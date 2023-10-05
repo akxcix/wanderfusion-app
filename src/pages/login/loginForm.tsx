@@ -56,7 +56,7 @@ export const LoginForm = () => {
   }
 
   return (
-    <div className="flex flex-col max-w-fit">
+    <div className="flex flex-col max-w-fit space-y-5">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card>
@@ -98,13 +98,17 @@ export const LoginForm = () => {
                 />
               </div>
             </CardContent>
-            <CardFooter className="flex flex-row">
+            <CardFooter className="flex flex-row space-x-2">
+            
               <Button className="grow" type="submit">
                 Log In
               </Button>
             </CardFooter>
           </Card>
         </form>
+        <Button className="grow" variant={"outline"}>
+                Forgot Password?
+              </Button>
       </Form>
     </div>
   );
